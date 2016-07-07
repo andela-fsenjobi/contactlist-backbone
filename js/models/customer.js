@@ -1,0 +1,1 @@
+window.CustomerModel = Backbone.Model.extend();

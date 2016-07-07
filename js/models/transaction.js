@@ -1,0 +1,1 @@
+window.TransactionModel = Backbone.Model.extend();

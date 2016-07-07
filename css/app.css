@@ -1,0 +1,14 @@
+a.single-item {
+    text-decoration: none;
+    color: black;
+    border-bottom: black;
+}
+
+ul.collection{
+  list-style: none;
+}
+
+ul.collection h6 {
+  font-size: 9px;
+  margin-top: 2px;
+}

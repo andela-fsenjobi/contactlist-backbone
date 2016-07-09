@@ -1,7 +1,1 @@
-var User = Backbone.Model.extend({
-  defaults: {
-    name: '',
-    password: '',
-    token: ''
-  }
-});
+var User = Backbone.Model.extend({ url: 'http://localhost:3000/api/users' });

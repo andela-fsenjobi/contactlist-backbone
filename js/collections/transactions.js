@@ -1,5 +1,5 @@
-window.TransactionsCollection = Backbone.Collection.extend({
-  model: TransactionModel,
+CL.Collections.Transactions = Backbone.Collection.extend({
+  model: CL.Models.Transaction,
   parse: function (data) {
     return data.transactions;
   },

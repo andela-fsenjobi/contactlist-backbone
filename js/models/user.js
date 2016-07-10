@@ -1,1 +1,1 @@
-var User = Backbone.Model.extend({ url: 'http://localhost:3000/api/users' });
+CL.Models.User = Backbone.Model.extend({ url: 'http://localhost:3000/api/users' });

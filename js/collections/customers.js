@@ -1,6 +1,6 @@
 $.ajaxSetup({ headers: { 'Authorization': localStorage.getItem('myToken') } });
-window.CustomerCollection = Backbone.Collection.extend({
-  model: CustomerModel,
+CL.Collections.Customers = Backbone.Collection.extend({
+  model: CL.Models.Customer,
   parse: function (data) {
     return data.customers;
   },

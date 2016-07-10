@@ -1,1 +1,1 @@
-var Session = Backbone.Model.extend({ url: 'http://localhost:3000/api/auth/login' });
+CL.Models.Session = Backbone.Model.extend({ url: 'http://localhost:3000/api/auth/login' });

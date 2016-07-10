@@ -1,4 +1,4 @@
-window.TransactionSingleView = Backbone.View.extend({
+CL.Views.TransactionItem = Backbone.View.extend({
   tagName: 'tr',
   className: 'transaction-item',
   events: {
@@ -19,7 +19,7 @@ window.TransactionSingleView = Backbone.View.extend({
     $('#transaction-cancel').click();
     $('#cancel-create-transaction').click();
     e.preventDefault();
-    $(this.el).html(new TransactionForm().render().el);
+    $(this.el).html(new CL.Views.TransactionForm().render().el);
     $('#transaction-amount').val(this.model.get('amount'));
     $('#transaction-expiry').val(this.model.get('expiry'));
     $('#transaction-submit').text('Edit');
@@ -39,7 +39,7 @@ window.TransactionSingleView = Backbone.View.extend({
     this.render();
   }
 });
-window.TransactionListView = Backbone.View.extend({
+CL.Views.TransactionList = Backbone.View.extend({
   tagName: 'table',
   className: 'transaction-list',
   id: 'transaction-list',
@@ -47,9 +47,10 @@ window.TransactionListView = Backbone.View.extend({
     this.model.on('reset', this.render, this);
   },
   render: function () {
+    $('#container').prepend(new CL.Views.TransactionHeader({ collection: this.model }).render().el);
     _.each(this.model.models, function (transaction) {
       try {
-        $(this.el).append(new TransactionSingleView({ model: transaction }).render().el);
+        $(this.el).append(new CL.Views.TransactionItem({ model: transaction }).render().el);
       } catch (e) {
         console.log(e);
       }
@@ -57,7 +58,7 @@ window.TransactionListView = Backbone.View.extend({
     return this;
   }
 });
-window.TransactionForm = Backbone.View.extend({
+CL.Views.TransactionForm = Backbone.View.extend({
   tagName: 'form',
   template: _.template($('#transaction-form').html()),
   events: {
@@ -78,14 +79,14 @@ window.TransactionForm = Backbone.View.extend({
     this.el.remove();
   },
   appendNew: function (model) {
-    $('#transaction-list').append(new TransactionSingleView({ model: model }).render().el);
+    $('#transaction-list').append(new CL.Views.TransactionItem({ model: model }).render().el);
   },
   cancelCreate: function (e) {
     e.preventDefault();
     this.el.remove();
   }
 });
-window.TransactionButton = Backbone.View.extend({
+CL.Views.TransactionButton = Backbone.View.extend({
   tagName: 'button',
   className: 'button button-primary',
   id: 'create-transaction',
@@ -94,16 +95,16 @@ window.TransactionButton = Backbone.View.extend({
     return this;
   }
 });
-window.TransactionHeader = Backbone.View.extend({
+CL.Views.TransactionHeader = Backbone.View.extend({
   events: { 'click #create-transaction': 'showForm' },
   render: function () {
     $(this.el).html('<h4>Transaction List</h4>');
-    $(this.el).append(new TransactionButton().render().el);
+    $(this.el).append(new CL.Views.TransactionButton().render().el);
     return this;
   },
   showForm: function () {
     $('#cancel-create-transaction').click();
-    $(this.el).append(new TransactionForm({ collection: this.collection }).render().el);
+    $(this.el).append(new CL.Views.TransactionForm({ collection: this.collection }).render().el);
     $('#transaction-cancel').attr('id', 'cancel-create-transaction');
   }
 });

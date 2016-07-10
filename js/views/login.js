@@ -1,4 +1,4 @@
-window.LoginView = Backbone.View.extend({
+CL.Views.Login = Backbone.View.extend({
   tagName: 'form',
   template: _.template($('#login-form').html()),
   events: {
@@ -17,9 +17,9 @@ window.LoginView = Backbone.View.extend({
       password: $('#login-password').val()
     };
     this.model.save();
-  },
+  }
 });
-window.IndexView = Backbone.View.extend({
+CL.Views.Index = Backbone.View.extend({
   className: 'section',
   render: function () {
     $(this.el).html('<h3>Welcome to Contactlist</h3><a href="#login" class="button button-primary home">Login</a><a href="#register" class="button home">Register</a>');

@@ -1,1 +1,1 @@
-window.CustomerModel = Backbone.Model.extend();
+CL.Models.Customer = Backbone.Model.extend();

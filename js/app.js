@@ -1,2 +1,7 @@
-var app = new AppRouter();
-Backbone.history.start();
+window.CL = {
+  Router: {},
+  Collections: {},
+  Models: {},
+  Events: {},
+  Views: {}
+};

@@ -1,4 +1,4 @@
-window.CustomerSingleView = Backbone.View.extend({
+CL.Views.CustomerItem = Backbone.View.extend({
   tagName: 'li',
   template: _.template($('#customer-detail').html()),
   events: {
@@ -27,7 +27,7 @@ window.CustomerSingleView = Backbone.View.extend({
     $('#customer-cancel').click();
     $('#cancel-create').click();
     e.preventDefault();
-    var editForm = new CustomerForm().render().el;
+    var editForm = new CL.Views.CustomerForm().render().el;
     $(this.el).html(editForm);
     $('#customer-name').val(this.model.get('name'));
     $('#customer-phone').val(this.model.get('phone'));
@@ -48,7 +48,7 @@ window.CustomerSingleView = Backbone.View.extend({
     this.render();
   }
 });
-window.CustomerButton = Backbone.View.extend({
+CL.Views.CustomerButton = Backbone.View.extend({
   tagName: 'button',
   className: 'button button-primary',
   id: 'new-customer',
@@ -57,7 +57,7 @@ window.CustomerButton = Backbone.View.extend({
     return this;
   }
 });
-window.CustomerListView = Backbone.View.extend({
+CL.Views.CustomerList = Backbone.View.extend({
   tagName: 'ul',
   className: 'collection',
   id: 'customer-list',
@@ -65,28 +65,30 @@ window.CustomerListView = Backbone.View.extend({
     this.model.on('reset', this.render, this);
   },
   render: function () {
+    this.customerHeader = new CL.Views.CustomerHeader({ model: this.customers });
+    $('#container').prepend(this.customerHeader.render().el);
     _.each(this.model.models, function (customer) {
-      $(this.el).append(new CustomerSingleView({ model: customer }).render().el);
+      $(this.el).append(new CL.Views.CustomerItem({ model: customer }).render().el);
     }, this);
     return this;
   }
 });
-window.CustomerHeader = Backbone.View.extend({
+CL.Views.CustomerHeader = Backbone.View.extend({
   className: 'customer-header',
   events: { 'click #new-customer': 'showForm' },
   render: function () {
     $(this.el).html('<h4>All Customers</h4>');
-    $(this.el).append(new CustomerButton().render().el);
+    $(this.el).append(new CL.Views.CustomerButton().render().el);
     return this;
   },
   showForm: function () {
     $('#customer-cancel').click();
     $('#cancel-create').click();
-    $(this.el).append(new CustomerForm({ model: this.model }).render().el);
+    $(this.el).append(new CL.Views.CustomerForm({ model: this.model }).render().el);
     $('#customer-cancel').attr('id', 'cancel-create');
   }
 });
-window.CustomerForm = Backbone.View.extend({
+CL.Views.CustomerForm = Backbone.View.extend({
   tagName: 'form',
   template: _.template($('#customer-form').html()),
   events: {
@@ -107,7 +109,7 @@ window.CustomerForm = Backbone.View.extend({
     this.el.remove();
   },
   appendNew: function (model) {
-    $('#customer-list').append(new CustomerSingleView({ model: model }).render().el);
+    $('#customer-list').append(new CL.Views.CustomerItem({ model: model }).render().el);
   },
   cancelCreate: function (e) {
     e.preventDefault();

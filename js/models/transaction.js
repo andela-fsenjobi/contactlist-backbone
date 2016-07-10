@@ -1,1 +1,1 @@
-window.TransactionModel = Backbone.Model.extend();
+CL.Models.Transaction = Backbone.Model.extend();

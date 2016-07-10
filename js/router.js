@@ -1,4 +1,4 @@
-var AppRouter = Backbone.Router.extend({
+CL.Router.Router = Backbone.Router.extend({
   routes: {
     '': 'index',
     'login': 'login',
@@ -8,12 +8,12 @@ var AppRouter = Backbone.Router.extend({
     'customer/:id': 'customer'
   },
   index: function () {
-    this.loginView = new IndexView();
+    this.loginView = new CL.Views.Index();
     $('#container').html(this.loginView.render().el);
   },
   login: function () {
-    this.userSession = new Session();
-    this.loginView = new LoginView({ model: this.userSession });
+    this.userSession = new CL.Models.Session();
+    this.loginView = new CL.Views.Login({ model: this.userSession });
     $('#container').html(this.loginView.render().el);
     $('#container').prepend('<h4>Login</h4>');
     $('#login-register').html('Awww, I do not have an account yet');
@@ -24,27 +24,22 @@ var AppRouter = Backbone.Router.extend({
     window.location = '';
   },
   register: function () {
-    this.userSession = new User();
-    this.loginView = new LoginView({ model: this.userSession });
+    this.userSession = new CL.Models.User();
+    this.loginView = new CL.Views.Login({ model: this.userSession });
     $('#container').html(this.loginView.render().el);
     $('#container').prepend('<h4>Register</h4>');
     $('#login-submit').html('Thanks, I have an account already');
     this.userSession.on('sync', this.saveToken, this);
   },
   customers: function () {
-    this.customers = new CustomerCollection();
-    this.customerView = new CustomerListView({ model: this.customers });
+    this.customers = new CL.Collections.Customers();
+    this.customerView = new CL.Views.CustomerList({ model: this.customers });
     $('#container').html(this.customerView.render().el);
-    this.customerHeader = new CustomerHeader({ model: this.customers });
-    $('#container').prepend(this.customerHeader.render().el);
-    this.customerButton = new CustomerButton({ model: this.customers });
-    $('#button-container').prepend(this.customerButton.render().el);
   },
   customer: function (id) {
-    this.transactions = new TransactionsCollection(id);
-    this.transactionsView = new TransactionListView({ model: this.transactions });
+    this.transactions = new CL.Collections.Transactions(id);
+    this.transactionsView = new CL.Views.TransactionList({ model: this.transactions });
     $('#container').html(this.transactionsView.render().el);
-    $('#container').prepend(new TransactionHeader({ collection: this.transactions }).render().el);
   },
   saveToken: function () {
     localStorage.setItem('myToken', this.userSession.attributes.token);

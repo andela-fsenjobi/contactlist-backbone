@@ -61,3 +61,39 @@ tr{
 a.home{
   margin: 20px;
 }
+
+.notification {
+  position: absolute;
+  padding: 20px;
+  top: 5px;
+  right:5px;
+  width: 200px;
+  color: #ffffff;
+  border-radius: 10px;
+  opacity: 0.6;
+}
+.success {
+  background-color: #006400;
+}
+
+.error {
+  background-color: #ff0000;
+}
+
+a.close-notification {
+  position: absolute;
+  display: block;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid;
+  top: 10px;
+  right: 10px;
+  clear: right;
+  width: 25px;
+  height: 25px;
+  color: #a1a1a1;
+}
+
+a.close-notification:hover{
+  color: #ffffff;
+}

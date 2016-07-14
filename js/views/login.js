@@ -26,3 +26,21 @@ CL.Views.Index = Backbone.View.extend({
     return this;
   }
 });
+CL.Views.Notification = Backbone.View.extend({
+  className: 'notification',
+  events: {
+    'click .close-notification': 'closeNotification'
+  },
+  initialize: function (message, messageType) {
+    this.message = message;
+    this.messageType = messageType;
+  },
+  render: function () {
+    $(this.el).addClass(this.messageType);
+    $(this.el).html('<p>' + this.message + '<a class="close-notification">x</a></p>');
+    return this;
+  },
+  closeNotification: function () {
+    this.el.remove();
+  }
+});

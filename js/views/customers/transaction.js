@@ -8,17 +8,13 @@ CL.Views.TransactionItem = Backbone.View.extend({
   },
   template: _.template($('#transaction-detail').html()),
   render: function (eventName) {
-    try {
-      $(this.el).html(this.template(this.model.toJSON()));
-    } catch (e) {
-      $(this.el).html(this.template(this.model.attributes.transaction));
-    }
+    $(this.el).html(this.template(this.model.toJSON()));
     return this;
   },
   populateTransactionForm: function (e) {
+    e.preventDefault();
     $('#transaction-cancel').click();
     $('#cancel-create-transaction').click();
-    e.preventDefault();
     $(this.el).html(new CL.Views.TransactionForm().render().el);
     $('#transaction-amount').val(this.model.get('amount'));
     $('#transaction-expiry').val(this.model.get('expiry'));
@@ -29,10 +25,14 @@ CL.Views.TransactionItem = Backbone.View.extend({
     e.preventDefault();
     this.model.set({
       amount: $('#transaction-amount').val(),
-      expiry: $('#transaction-expiry').val()
+      expiry: $('#transaction-expiry').val(),
+      status: this.setStatus($('#transaction-amount').val())
     });
     this.model.save();
     this.render();
+  },
+  setStatus: function (amount) {
+    return (amount > 0) ? 'Paid' : 'Unpaid';
   },
   cancelEdit: function (e) {
     e.preventDefault();
@@ -73,10 +73,14 @@ CL.Views.TransactionForm = Backbone.View.extend({
     e.preventDefault();
     this.newTransaction = this.collection.create({
       amount: $('#transaction-amount').val(),
-      expiry: $('#transaction-expiry').val()
+      expiry: $('#transaction-expiry').val(),
+      status: this.setStatus($('#transaction-amount').val()),
     }, { wait: true });
     this.newTransaction.on('sync', this.appendNew, this);
     this.el.remove();
+  },
+  setStatus: function (amount) {
+    return (amount > 0) ? 'Paid' : 'Unpaid';
   },
   appendNew: function (model) {
     $('#transaction-list').append(new CL.Views.TransactionItem({ model: model }).render().el);

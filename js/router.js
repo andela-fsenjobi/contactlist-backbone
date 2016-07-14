@@ -10,6 +10,10 @@ CL.Router.Router = Backbone.Router.extend({
   index: function () {
     this.loginView = new CL.Views.Index();
     $('#container').html(this.loginView.render().el);
+    // this.successView = new CL.Views.Notification('Hello', 'success');
+    // this.errorView = new CL.Views.Notification('Hello', 'error');
+    // $('body').append(this.successView.render().el);
+    // $('body').append(this.errorView.render().el);
   },
   login: function () {
     this.userSession = new CL.Models.Session();
@@ -20,8 +24,10 @@ CL.Router.Router = Backbone.Router.extend({
     this.userSession.on('change:token', this.saveToken, this);
   },
   logout: function () {
+    this.successView = new CL.Views.Notification("You are now logged out", 'success');
+    $('body').append(this.successView.render().el);
     localStorage.removeItem('myToken');
-    window.location = '';
+    this.navigate('', {trigger: true});
   },
   register: function () {
     this.userSession = new CL.Models.User();
@@ -33,7 +39,7 @@ CL.Router.Router = Backbone.Router.extend({
   },
   customers: function () {
     this.customers = new CL.Collections.Customers();
-    this.customerView = new CL.Views.CustomerList({ model: this.customers });
+    this.customerView = new CL.Views.CustomerList({ collection: this.customers });
     $('#container').html(this.customerView.render().el);
   },
   customer: function (id) {
@@ -42,7 +48,9 @@ CL.Router.Router = Backbone.Router.extend({
     $('#container').html(this.transactionsView.render().el);
   },
   saveToken: function () {
+    this.successView = new CL.Views.Notification(this.userSession.attributes.message, 'success');
+    $('body').append(this.successView.render().el);
     localStorage.setItem('myToken', this.userSession.attributes.token);
-    window.location = '#customers';
+    this.navigate('customers', {trigger: true});
   }
 });
